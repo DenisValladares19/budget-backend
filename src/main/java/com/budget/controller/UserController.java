@@ -18,7 +18,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("/signup")
     public ResponseEntity<ResponseDTO> create(@RequestBody UserDTO dto) {
         ResponseDTO<UserDTO> response = new ResponseDTO();
         UserDTO userDTO = userService.create(dto);
