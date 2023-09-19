@@ -14,10 +14,10 @@ import java.util.function.Function;
 
 @Service
 public class JWTUtilService {
-    @Value("{jwt.secret.key}")
+    @Value("${jwt.secret.key}")
     private String secretKey;
 
-    @Value("{jwt.token.validity}")
+    @Value("${jwt.token.validity}")
     private String tokenValidity;
 
     public String extractUsername(String token) {
