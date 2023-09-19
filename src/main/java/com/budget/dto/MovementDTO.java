@@ -3,6 +3,8 @@ import com.budget.enums.TypeMovement;
 import com.budget.enums.TypeTransaction;
 import lombok.*;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -14,4 +16,6 @@ public class MovementDTO {
     private Double amount;
     private TypeTransaction typeTransaction;
     private TypeMovement typeMovement;
+    private String comment;
+    private Date createdAt;
 }
