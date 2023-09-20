@@ -3,6 +3,7 @@ package com.budget.service;
 import com.budget.dto.LoginDTO;
 import com.budget.dto.UserDTO;
 import com.budget.dto.UserDTOWithToken;
+import jakarta.servlet.http.HttpServletRequest;
 
 public interface UserService {
     UserDTO create(UserDTO dto);
@@ -12,4 +13,6 @@ public interface UserService {
     void delete(Long userId);
     UserDTO getById(Long userId);
     UserDTO getByEmail(String email);
+
+    UserDTO info(HttpServletRequest request);
 }

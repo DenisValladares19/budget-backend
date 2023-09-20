@@ -5,14 +5,12 @@ import com.budget.dto.ResponseDTO;
 import com.budget.dto.UserDTO;
 import com.budget.dto.UserDTOWithToken;
 import com.budget.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -43,5 +41,16 @@ public class UserController {
         responseDTO.setContent(userDTOWithToken);
 
         return new ResponseEntity(responseDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<ResponseDTO> info(HttpServletRequest request) {
+        ResponseDTO<UserDTO> responseDTO = new ResponseDTO();
+
+        responseDTO.setCode(ResponseDTO.CODE_SUCCESS);
+        responseDTO.setMessage(ResponseDTO.MESSAGE_SUCCESS);
+        responseDTO.setContent(userService.info(request));
+
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }

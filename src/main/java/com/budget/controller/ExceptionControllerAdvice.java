@@ -17,11 +17,16 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler(value =  RequestException.class)
     public ResponseEntity<ResponseDTO> handleRequestException(RequestException ex) {
-        var response = ResponseDTO.builder().code(ex.getCode()).message(ex.getMessage()).build();
+        var response = ResponseDTO.builder().message(ex.getMessage()).build();
         HttpStatus status = HttpStatus.BAD_REQUEST;
+        String code = ResponseDTO.CODE_ERROR;
 
         if (ex.getStatus() != null) {
             status = ex.getStatus();
+        }
+
+        if (ex.getCode() != null) {
+            response.setCode(code);
         }
 
         return new ResponseEntity<ResponseDTO>(response, status);

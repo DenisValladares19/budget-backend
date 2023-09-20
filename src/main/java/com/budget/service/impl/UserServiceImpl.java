@@ -10,6 +10,7 @@ import com.budget.repository.BudgetRepository;
 import com.budget.repository.UserRepository;
 import com.budget.security.service.JWTUtilService;
 import com.budget.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
         String jwt = jwtUtilService.generateToken(userDetails);
 
         UserDTOWithToken userDTOWithToken = modelMapper.map(getByEmail(dto.getEmail()), UserDTOWithToken.class);
-        userDTOWithToken.setToken(jwt);
+        userDTOWithToken.setToken("Bearer " + jwt);
         return userDTOWithToken;
     }
 
@@ -113,5 +114,10 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RequestException("User not found where email = " + email));
 
         return modelMapper.map(user, UserDTO.class);
+    }
+
+    @Override
+    public UserDTO info(HttpServletRequest request) {
+        return jwtUtilService.loadUser(request);
     }
 }
