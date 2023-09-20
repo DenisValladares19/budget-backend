@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -76,8 +77,14 @@ public class JWTUtilService {
     public UserDTO loadUser (HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            String token = authorizationHeader.substring(7);
+            String token = authorizationHeader.replace("Bearer ", "");
+
+            if (isTokenExpired(token)) {
+                throw new RequestException("Token expired", "401", HttpStatus.UNAUTHORIZED);
+            }
+
             String username = extractUsername(token);
+
             return modelMapper.map(userRepository.findByEmail(username).get(), UserDTO.class);
         }
 
